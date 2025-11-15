@@ -1,0 +1,7 @@
+{
+  "name": "tugas2-STSI4303-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
