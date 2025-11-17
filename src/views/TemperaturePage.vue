@@ -9,7 +9,7 @@
                 </p>
             </div>
             <div class="content-section">
-                <ion-spinner v-if="loading"></ion-spinner>
+                <ion-progress-bar v-if="loading" type="indeterminate"></ion-progress-bar>
                 <ion-text v-else-if="error" color="danger">
                     <p>Error loading data: {{ error.message }}</p>
                 </ion-text>
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { IonSpinner, IonText } from "@ionic/vue";
+import { IonText, IonProgressBar  } from "@ionic/vue";
 
 interface HourlyData {
     time: string[];
@@ -57,8 +57,8 @@ interface TemperatureRow {
 export default {
     name: "TemperaturePage",
     components: {
-        IonSpinner,
         IonText,
+        IonProgressBar,
     },
     data() {
         return {
@@ -87,6 +87,7 @@ export default {
                 console.error("Error fetching data:", error);
                 this.error = error as Error;
             } finally {
+                // set lodaing ketika selesai get data
                 this.loading = false;
             }
         },
