@@ -62,7 +62,6 @@ export default {
     },
     data() {
         return {
-            apiData: null as ApiResponse | null,
             loading: false,
             error: null as Error | null,
             temperatureRows: [] as TemperatureRow[],
@@ -81,8 +80,7 @@ export default {
                     "https://api.open-meteo.com/v1/forecast?latitude=-6.2&longitude=106.8&hourly=temperature_2m",
                 );
                 const data = await response.json();
-                this.apiData = data;
-                this.processData();
+                this.processData(data);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 this.error = error as Error;
@@ -92,13 +90,13 @@ export default {
             }
         },
         // process data dari api
-        processData() {
-            if (this.apiData?.hourly) {
-                this.temperatureRows = this.apiData.hourly.time.map(
+        processData(data: ApiResponse) {
+            if (data?.hourly) {
+                this.temperatureRows = data.hourly.time.map(
                     (time, index) => ({
                         index,
                         time,
-                        temperature: this.apiData!.hourly.temperature_2m[index],
+                        temperature: data!.hourly.temperature_2m[index],
                     }),
                 );
             }
