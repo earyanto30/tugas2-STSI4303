@@ -1,43 +1,71 @@
 <template>
-    <div class="temperature-container">
-        <div class="content-wrapper">
-            <div class="header-section">
-                <h1 class="title">Tugas 2 - STSI4303</h1>
-                <p class="description">
-                    Mengambil data dari API OpenWeatherMap dan menampilkan dalam
-                    bentuk tabel.
-                </p>
-            </div>
-            <div class="content-section">
-                <ion-progress-bar v-if="loading" type="indeterminate"></ion-progress-bar>
-                <ion-text v-else-if="error" color="danger">
-                    <p>Error loading data: {{ error.message }}</p>
-                </ion-text>
-                <table v-else class="temperature-table">
-                    <thead>
-                        <tr class="header-row">
-                            <th>Time</th>
-                            <th>Temperature</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
+    <ion-page>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title class="ion-text-center">Tugas 2 - STSI4303</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-card>
+                <ion-card-header>
+                    <ion-card-subtitle>
+                        Mengambil data dari API OpenWeatherMap dan menampilkan dalam
+                        bentuk tabel.
+                    </ion-card-subtitle>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-progress-bar v-if="loading" type="indeterminate"></ion-progress-bar>
+                    <ion-text v-else-if="error" color="danger">
+                        <p>Error loading data: {{ error.message }}</p>
+                    </ion-text>
+                    <ion-grid v-else>
+                        <ion-row>
+                            <ion-col size="6" class="ion-text-center">
+                                <ion-text>
+                                    <strong>Time</strong>
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="6" class="ion-text-center">
+                                <ion-text>
+                                    <strong>Temperature</strong>
+                                </ion-text>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row
                             v-for="row in temperatureRows"
                             :key="row.index"
-                            class="data-row"
                         >
-                            <td>{{ new Date(row.time).toLocaleString() }}</td>
-                            <td>{{ row.temperature }}°C</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+                            <ion-col size="6" class="ion-text-center">
+                                {{ new Date(row.time).toLocaleString() }}
+                            </ion-col>
+                            <ion-col size="6" class="ion-text-center">
+                                {{ row.temperature }}°C
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card-content>
+            </ion-card>
+        </ion-content>
+    </ion-page>
 </template>
 
 <script lang="ts">
-import { IonText, IonProgressBar  } from "@ionic/vue";
+import {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonCard,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCardContent,
+    IonGrid,
+    IonRow,
+    IonCol,
+    IonText,
+    IonProgressBar
+} from "@ionic/vue";
 
 interface HourlyData {
     time: string[];
@@ -57,6 +85,18 @@ interface TemperatureRow {
 export default {
     name: "TemperaturePage",
     components: {
+        IonPage,
+        IonHeader,
+        IonToolbar,
+        IonTitle,
+        IonContent,
+        IonCard,
+        IonCardHeader,
+        IonCardSubtitle,
+        IonCardContent,
+        IonGrid,
+        IonRow,
+        IonCol,
         IonText,
         IonProgressBar,
     },
@@ -104,93 +144,3 @@ export default {
     },
 };
 </script>
-
-<style scoped>
-.temperature-container {
-    padding: 16px;
-    margin: 16px 0;
-    cursor: url("https://ionicframework.com/img/finger.png"), auto;
-}
-
-.content-wrapper {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.header-section {
-    padding: 24px;
-    border-bottom: 1px solid #e0e0e0;
-    text-align: center;
-}
-
-.title {
-    margin: 0 0 8px 0;
-    font-size: 24px;
-    font-weight: 600;
-    color: #333;
-}
-
-.description {
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-}
-
-.content-section {
-    padding: 24px;
-    max-height: 500px;
-    overflow-y: auto;
-    border: 1px solid #e0e0e0;
-}
-
-.temperature-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.temperature-table thead {
-    background-color: lightgrey;
-}
-
-.header-row {
-    font-weight: 600;
-    color: #333;
-}
-
-.header-row th {
-    padding: 12px;
-    text-align: center;
-    font-size: 14px;
-    border: solid 1px grey;
-    border-bottom-style: none;
-    border-right-style: none;
-}
-
-.header-row th:last-child {
-    border-right: solid 1px grey;
-}
-
-.data-row td {
-    padding: 12px;
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-    border: solid 1px grey;
-    border-bottom-style: none;
-    border-right-style: none;
-}
-
-.data-row td:last-child {
-    border-right: solid 1px grey;
-}
-
-.data-row:last-child td {
-    border-bottom: solid 1px grey;
-}
-
-.data-row:hover {
-    background-color: #fafafa;
-}
-</style>
